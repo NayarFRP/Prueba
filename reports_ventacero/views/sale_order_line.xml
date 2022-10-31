@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+
+    <record id="sale_order_line_reports_tree" model="ir.ui.view">
+      <field name="name">sale.order.line.reports.tree</field> 
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <tree create="0">          
+          <field name="create_date" string="Fecha"/>
+          <field name="order_id" string="Pedido"/>
+          <field name="order_partner_id" string="Cliente"/>
+          <field name="pricelist_id" string="Nivel"/>
+          <field name="partner_category_id" string="Tipo de cliente" widget="many2many_tags"/>
+          <field name="analytic_tag_ids" string="Region" widget="many2many_tags"/>
+          <field name="team_id" string="Equipo de venta"/>
+          <field name="salesman_id" string="Vendedor"/>
+          <field name="product_category_id" string="Categoria"/>
+          <field name="product_id" string="Referencia interna"/>
+          <field name="name" string="Producto"/>
+          <field name="product_uom_qty" string="Cantidad" digits="[12,2]"/>
+          <field name="product_uom" string="UdM"/>
+          <field name="price_unit" string="Precio unitario"/>
+          <field name="equivalent_weight" string="Peso equivalente" sum="Total"/>
+          <field name="price_subtotal" string="Subtotal" sum="Total"/>
+          <field name="discount" string="Descuento %"/>
+          <field name="amount_discount" string="Descuento $"  sum="Total"/>
+          <field name="product_cost" string="Costo" sum="Total"/>
+          <field name="contribucion" string="Contribucion" sum="Total"/>
+          <field name="margen" string="Margen %"/>
+        </tree>
+      </field> 
+    </record>
+
+  </data>
+</odoo>

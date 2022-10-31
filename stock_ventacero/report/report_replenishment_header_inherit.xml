@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_replenishment_header_inherit_stock_ventacero" inherit_id="stock.report_replenishment_header">
+        <xpath expr="//t[1]/div[1]/div[2]" position="replace">
+            <div class="mx-3 text-center">
+                <div class="h3">
+                    <t t-esc="docs['quantity_on_hand']" t-options="{'widget': 'float', 'precision': 2}"/>
+                    <t t-esc="docs['uom']" groups="uom.group_uom"/>
+                </div>
+                <div>A la mano</div>
+            </div>
+            <div t-attf-class="mx-3 text-center #{docs['virtual_available'] &lt; 0 and 'text-danger'}">
+                <div class="h3">
+                    <t t-esc="docs['virtual_available']" t-options="{'widget': 'float', 'precision': 2}"/>
+                    <t t-esc="docs['uom']" groups="uom.group_uom"/>
+                </div>
+                <div>Pronosticado</div>
+            </div>
+            <div name="pending_forecasted" t-attf-class="mx-3 text-center #{future_virtual_available &lt; 0 and 'text-danger'}">
+                <div class="h3">
+                    <t t-esc="future_virtual_available" t-options="{'widget': 'float', 'precision': 2}"/>
+                    <t t-esc="docs['uom']" groups="uom.group_uom"/>
+                </div>
+                <div>Pronosticado<br/>+ Pendiente</div>
+            </div>
+        </xpath>
+    </template>
+
+
+    <template id="report_product_product_replenishment_inherit_stock_ventacero" inherit_id="stock.report_product_product_replenishment">
+        <xpath expr="//t[1]" position="replace">
+            <t t-call="web.html_container">
+            <div class="page pt-3 o_report_replenishment_page">
+                <t t-set="future_virtual_available" t-value="docs['virtual_available'] + docs['qty']['in'] - docs['qty']['out']"/>
+                <t t-call="stock.report_replenishment_header"/>
+                <div class="o_report_graph"/>
+                <table class="o_report_replenishment table table-bordered">
+                    <thead>
+                        <tr class="bg-light">
+                            <td>Reabastecimiento</td>
+                            <td>Recepción</td>
+                            <td t-if="docs['multiple_product']">Product</td>
+                            <td class="text-right"><t t-esc="docs['uom']"/></td>
+                            <td>Usado por</td>
+                            <td>Entrega</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-if="docs['lines'] and not any(line['document_in'] or line['replenishment_filled'] for line in docs['lines'])">
+                            <td>Inventario a la mano</td>
+                            <td/>
+                            <td t-if="docs['multiple_product']"/>
+                            <td class="text-right">0</td>
+                            <td/>
+                            <td/>
+                            <td/>
+                            <td/>
+                        </tr>
+                        <tr t-foreach="docs['lines']" t-as="line" t-attf-class="#{line['is_matched'] and 'o_grid_match'}">
+                            <td t-attf-class="#{line['is_late'] and 'o_grid_warning'}">
+                                <a t-if="line['document_in']" t-attf-href="#" t-esc="line['document_in'].name" class="font-weight-bold" view-type="form" t-att-res-model="line['document_in']._name" t-att-res-id="line['document_in'].id"/>
+                                <t t-elif="line['reservation']">
+                                    Reservado de existencias
+                                    <button t-if="line['move_out'] and line['move_out'].picking_id" class="btn btn-sm btn-primary o_report_replenish_unreserve" t-attf-model="stock.picking" t-att-model-id="line['move_out'].picking_id.id" name="unreserve_link">
+                                        Anular reserva
+                                    </button>
+                                </t>
+                                <t t-elif="line['replenishment_filled']">
+                                    <t t-if="line['document_out']">Inventario a la mano
+                                        <button t-if="line['move_out'] and line['move_out'].picking_id" class="btn btn-sm btn-primary o_report_replenish_reserve" t-attf-model="stock.picking" t-att-model-id="line['move_out'].picking_id.id" name="reserve_link">
+                                            Reserva
+                                        </button>
+                                    </t>
+                                    <t t-else="">Existencias libres</t>
+                                </t>
+                                <span t-else="" class="text-muted">No disponible</span>
+                            </td>
+                            <td t-esc="line['receipt_date'] or ''" t-attf-class="#{line['is_late'] and 'o_grid_warning'}"/>
+                            <td t-if="docs['multiple_product']" t-esc="line['product']['display_name']"/>
+                            <td class="text-right"><t t-if="not line['replenishment_filled']">- </t><t t-esc="line['quantity']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                            <td t-attf-class="#{not line['replenishment_filled'] and 'o_grid_warning'}" name="usedby_cell">
+                                <button t-if="line['move_out'] and line['move_out'].picking_id" t-attf-class="o_priority o_priority_star o_report_replenish_change_priority fa fa-star#{' one' if line['move_out'].picking_id.priority=='1' else '-o zero'}" t-attf-model="stock.picking" t-att-model-id="line['move_out'].picking_id.id" name="change_priority_link"/>
+                                <a t-if="line['document_out']" t-attf-href="#" t-esc="line['document_out'].name" class="font-weight-bold" view-type="form" t-att-res-model="line['document_out']._name" t-att-res-id="line['document_out'].id"/>
+                            </td>
+                            <td t-esc="line['delivery_date'] or ''" t-attf-class="#{not line['replenishment_filled'] and 'o_grid_warning'}"/>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="o_forecasted_row">
+                            <td colspan="2">Inventario pronosticado</td>
+                            <td t-esc="docs['virtual_available']" t-options="{'widget': 'float', 'precision': 2}" class="text-right"/>
+                        </tr>
+                    </thead>
+                    <tbody t-if="docs['qty']['in'] or docs['qty']['out']">
+                        <tr t-if="docs['draft_picking_qty']['in']" name="draft_picking_in">
+                            <td colspan="2">Traslado entrante en borrador</td>
+                            <td t-esc="docs['draft_picking_qty']['in']" t-options="{'widget': 'float', 'precision': 2}" class="text-right"/>
+                        </tr>
+                        <tr t-if="docs['draft_picking_qty']['out']" name="draft_picking_out">
+                            <td colspan="2">Traslado saliente en borrador</td>
+                            <td t-esc="-docs['draft_picking_qty']['out']" t-options="{'widget': 'float', 'precision': 2}" class="text-right"/>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="o_forecasted_row">
+                            <td colspan="2">Pronosticado con pendiente</td>
+                            <td t-esc="future_virtual_available" t-options="{'widget': 'float', 'precision': 2}" class="text-right"/>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </t>
+        </xpath>
+    </template>
+</odoo>

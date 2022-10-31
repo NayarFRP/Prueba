@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record id="approval_criteria_tree" model="ir.ui.view">
+    <field name="name">approval.criteria.tree</field> 
+    <field name="model">approval.criteria</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="vencimiento_inicial"/>
+        <field name="vencimiento_final"/>
+        <field name="comportamiento_pago"/>
+        <field name="excedente_inicial"/>
+        <field name="excedente_final"/>
+      </tree>
+    </field> 
+  </record>
+
+  <record id="approval_criteria_form" model="ir.ui.view"> 
+    <field name="name">approval.criteria.form</field> 
+    <field name="model">approval.criteria</field>
+    <field name="arch" type="xml">
+      <form string="Registro de criterios de aprobación">
+          <sheet>
+              <group>
+                <div class="oe_title">
+                  <h1>
+                    <field name="name" required="1" placeholder="Nombre de Rango"/>
+                  </h1>
+                </div>
+              </group>
+              <group name="info_1">
+                <group>
+                  <field name="vencimiento_inicial"/>
+                  <field name="vencimiento_final"/>
+                  <field name="comportamiento_pago"/>
+                </group>
+                <group>
+                  <field name="excedente_inicial"/>
+                  <field name="excedente_final"/>
+                </group>
+              </group>
+              <notebook>
+                <page string="Grupos de permisos">  
+                  <group>
+                    <field name="groups_name"/>
+                  </group>
+                  <group>
+                    <field name="groups" nolabel="1">
+                      <tree editable="bottom">
+                        <field name="full_name" readonly="1"/>
+                      </tree>
+                    </field>
+                  </group>
+                </page>
+              </notebook>
+          </sheet>
+      </form>
+    </field> 
+  </record>
+</odoo>

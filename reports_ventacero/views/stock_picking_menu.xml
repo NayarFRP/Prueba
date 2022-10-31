@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+
+    <record id="get_stock_picking_report_view" model="ir.actions.act_window">
+        <field name="name">Transferencias</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'create': False}</field>
+        <field name="domain">[('internal_transfer','=', True)]</field>
+        <field name="view_id" ref="reports_ventacero.stock_picking_report_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea un nuevo registro
+            </p>
+        </field>
+    </record>
+
+    <record id="stock_picking_odoo_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="stock.vpicktree"/>
+        <field name="act_window_id" ref="stock.action_picking_tree_all"/>
+    </record>
+
+    <record id="stock_picking_odoo_view_tree_2" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="stock.vpicktree"/>
+        <field name="act_window_id" ref="stock.stock_picking_action_picking_type"/>
+    </record>
+
+    <record id="reports_ventacero.stock_picking_report_menu" model="ir.ui.menu">
+        <field name="action" ref="reports_ventacero.get_stock_picking_report_view"/>
+        <field name="active" eval="True"/>
+        <field name="groups_id" eval="[(6, 0, [])]"/>
+        <field name="name">Transferencias</field>
+        <field name="parent_id" ref="stock.menu_warehouse_report"/>
+        <field name="sequence">400</field>
+        <field name="web_icon" eval="False"/>
+    </record>
+
+  </data>
+</odoo>
+
+

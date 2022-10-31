@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <record id="purchase_order_inherit_accounting_ventacero" model="ir.ui.view">
+      <field name="name">purchase.order.inherit.accounting.ventacero</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//field[@name='account_analytic_id']" position="before">
+          <field name="account_analytic_account_ids" invisible="1"/>
+          <field name="account_analytic_tag_ids" invisible="1"/>
+        </xpath>
+
+        <xpath expr="//field[@name='account_analytic_id']" position="attributes">
+          <attribute name="domain">[('id','in',account_analytic_account_ids)]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='analytic_tag_ids']" position="attributes">
+          <attribute name="domain">[('id','in',account_analytic_tag_ids)]</attribute>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

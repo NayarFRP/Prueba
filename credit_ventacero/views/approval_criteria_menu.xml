@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="get_approval_criteria_view" model="ir.actions.act_window">
+        <field name="name">Criterios de aprobación</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">approval.criteria</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea nuevo registro
+            </p>
+        </field>
+    </record>
+
+    <record id="credit_ventacero.approval_criteria_menu" model="ir.ui.menu">
+        <field name="action" ref="credit_ventacero.get_approval_criteria_view"/>
+        <field name="active" eval="True"/>
+        <field name="groups_id" eval="[(6, 0, [])]"/>
+        <field name="name">Criterios de aprobación</field>
+        <field name="parent_id" ref="sale.menu_sale_config"/>
+        <field name="sequence">3</field>
+        <field name="web_icon" eval="False"/>
+    </record>
+</odoo>

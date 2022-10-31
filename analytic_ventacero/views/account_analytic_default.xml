@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+    <record id="account_analytic_default_inherit_analytic_ventacero" model="ir.ui.view">
+      <field name="name">account.analytic.default.inherit.analytic.ventacero</field>
+      <field name="model">account.analytic.default</field>
+      <field name="inherit_id" ref="account.view_account_analytic_default_form"/>
+      <field name="arch" type="xml">
+        
+       
+        <xpath expr="//field[@name='account_id']" position="after">
+          <field name="warehouse_id"/>
+        </xpath>
+
+     
+      </field>
+    </record>
+
+  </data>
+</odoo>

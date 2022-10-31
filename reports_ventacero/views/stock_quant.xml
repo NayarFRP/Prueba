@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+
+    <record id="stock_quant_mrp_tree" model="ir.ui.view">
+      <field name="name">stock.quant.mrp.tree</field> 
+      <field name="model">stock.quant</field>
+      <field name="arch" type="xml">
+        <tree>          
+          <field name="product_id" string="Referencia interna"/>
+          <field name="product_name" string="Nombre"/>          
+          <field name="weight" string="Peso" digits="[12,2]"/>
+          <field name="product_uom_uom_p" string="Unidad de medida"/>
+          <field name="unit_cost" string="Costo promedio"/>          
+          <field name="product_categ_id" string="Categoría de producto"/>
+          <field name="quantity_uom_p" string="Stock"/>
+          <field name="warehouse_incoming" string="Entradas"/>
+          <field name="warehouse_outgoing" string="Comprometido"/>
+          <field name="mrp_available_quantity" string="Disponible"/>
+          <field name="location_id" string="Ubicación"/>
+        </tree>
+      </field> 
+    </record>
+
+  </data>
+</odoo>

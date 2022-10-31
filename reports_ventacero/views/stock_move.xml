@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+
+    <record id="stock_move_reports_tree" model="ir.ui.view">
+      <field name="name">stock.move.reports.tree</field> 
+      <field name="model">stock.move</field>
+      <field name="arch" type="xml">
+        <tree create="0">
+          <field name="date"/>
+          <field name="supplier_id"/>
+          <field name="picking_id" readonly="1"/>
+          <button icon="fa-arrow-right" name="action_view_picking_id" string="Ver traslado" type="object"/>
+          <field name="location_dest_id" string="Destino"/>
+          <field name="purchase_id"/>
+          <button icon="fa-arrow-right" name="action_view_purchase_id" string="Ver PO" type="object"/>
+          <field name="product_id" readonly="1"/>
+          <field name="product_category_id"/>
+          <field name="demand_uom_p" string="Cantidad pedida"/>
+          <field name="price_unit_uom_p"/>
+          <field name="product_uom_p" string="Unidad de medida"/>
+          <field name="state" string="Estado"/>
+          <button icon="fa-times" name="action_cancel_move" type="object"/>
+        </tree>
+      </field> 
+    </record>
+
+  </data>
+</odoo>

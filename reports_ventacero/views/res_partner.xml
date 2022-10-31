@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+ 
+    <record id="res_partner_inherit_reports_ventacero" model="ir.ui.view">
+      <field name="name">res.partner.inherit.reports.ventacero</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_tree"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='user_id']" position="replace">
+        </xpath>
+        
+        <xpath expr="//field[@name='category_id']" position="after">
+          <field name="property_product_pricelist" string="Nivel" optional="show"/>
+          <field name="team_id" optional="show"/>
+          <field name="user_id" optional="show"/>
+          <field name="analytic_tag_id" optional="show"/>
+        </xpath>
+
+        
+      </field>
+    </record>
+
+  </data>
+</odoo>

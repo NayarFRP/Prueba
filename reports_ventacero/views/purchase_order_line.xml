@@ -1,0 +1,26 @@
+<odoo>
+  <data>
+
+    <record id="purchase_order_line_report_tree" model="ir.ui.view">
+      <field name="name">purchase.order.line.report.tree</field> 
+      <field name="model">purchase.order.line</field>
+      <field name="arch" type="xml">
+        <tree create="0">
+          <field name="warehouse_id" string="Almacén"/>
+          <field name="date_order" string="Fecha"/>
+          <field name="product_id" string="Referencia"/>
+          <field name="name" string="Producto"/>
+          <field name="product_uom" string="Unidad de medida"/>
+          <field name="order_id" string="Documento"/>
+          <field name="product_qty" string="Cantidad" digits="[12,2]"/>
+          <field name="price_unit" string="Valor unitario"/>
+          <field name="price_subtotal" string="Valor total"/>
+          <field name="location_id" string="Ubicación destino"/>
+          <field name="product_category_id" string="Familia"/>
+          <field name="partner_id" string="Proveedor"/>
+        </tree>
+      </field> 
+    </record>
+
+  </data>
+</odoo>

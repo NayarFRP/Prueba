@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_quant_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">stock.quant.inherit.stock.ventacero</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='available_quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_id']" position="after">
+              <field name="quantity_uom_p" optional="show"/>
+              <field name="available_quantity_uom_p" optional="show"/>
+              <field name="product_uom_uom_p" optional="show"/>
+        </xpath>
+
+        <xpath expr="//field[@name='lot_id']" position="attributes">
+          <attribute name="optional">"hide"</attribute>
+        </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_quant_inherit_stock_ventacero_2" model="ir.ui.view">
+    <field name="name">stock.quant.inherit.stock_ventacero.2</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='available_quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_diff_quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='lot_id']" position="attributes">
+          <attribute name="optional">"hide"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_id']" position="attributes">
+          <attribute name="optional">"show"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_quantity']" position="attributes">
+          <attribute name="optional">"hide"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_diff_quantity']" position="attributes">
+          <attribute name="optional">"hide"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_date']" position="attributes">
+          <attribute name="optional">"hide"</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='user_id']" position="attributes">
+          <attribute name="required">1</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_id']" position="after">
+              <field name="quantity_uom_p" optional="show"/>
+              <field name="product_uom_uom_p" optional="show"/>
+        </xpath>
+
+        <xpath expr="//field[@name='inventory_diff_quantity']" position="after">
+              <field name="uom_category_id" invisible="1"/>
+              <field name="inventory_quantity_uom_p" optional="show" widget="counted_quantity_uom_p_widget"/>
+              <field name="inventory_uom_id" optional="show" required="1" domain="[('category_id', '=', uom_category_id)]"/>
+              <field name="inventory_diff_quantity_uom_p" optional="show" readonly="1" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
+        </xpath>
+
+        <xpath expr="//field[@name='user_id']" position="after">
+              <field name="note" optional="show" required="0"/>
+        </xpath>
+
+    </field>
+  </record>
+
+</odoo>

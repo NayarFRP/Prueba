@@ -1,0 +1,71 @@
+<odoo>
+  <data>
+
+    <record id="stock_picking_report_tree" model="ir.ui.view">
+      <field name="name">stock.picking.report.tree</field> 
+      <field name="model">stock.picking</field>
+      <field name="arch" type="xml">
+        <tree>          
+          <field name="name" string="Numero de traspaso"/>
+          <button icon="fa-arrow-right" name="action_view_picking_id" string="Ver taspaso" type="object"/>
+          <field name="date" string="Fecha"/>
+          <field name="warehouse_origin" string="Suc Origen"/>
+          <field name="warehouse_dest" string="Suc Destino"/>
+          <field name="equivalent_weight" string="Tons equivalentes total del traspaso"/>
+          <field name="amount_products" string="Importe" widget="monetary"/>
+          <field name="state" string="Estado"/>
+        </tree>
+      </field> 
+    </record>
+
+    <record id="stock_picking_inherit_reports_ventacero" model="ir.ui.view">
+      <field name="name">stock.picking.inherit.reports.ventacero</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='origin']" position="after">
+          <field name="nivel_de_servicio" invisible="1"/>
+          <field name="account_move_ids" invisible="1"/>
+        </xpath>
+
+      </field>
+    </record>
+
+    <!--Herencia de vista tree que se usa en vista form de traslado por lotes (embarque)-->
+    <record id="stock_picking_tree_inherit_reports_ventacero" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit.reports.ventacero</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_batch.view_picking_tree_batch"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <button icon="fa-arrow-right" name="action_view_picking_id" string="Ver taspaso" type="object"/>
+                <field name="partner_id" string="Nombre del cliente" optional="hide"/>
+            </xpath>
+
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="account_move_ids" string="Facturas" widget="many2many_tags" optional="hide"/>
+                <field name="date_done" string="Fecha de entrega real" optional="hide"/>
+                <field name="nivel_de_servicio" string="Fecha de entrega real" optional="hide"/>
+                <field name="note" string="Motivo" optional="hide"/>
+                
+            </xpath>
+
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='backorder_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+  </data>
+</odoo>

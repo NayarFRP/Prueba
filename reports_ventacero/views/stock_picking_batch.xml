@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Herencia de vista formulario de traslado por lotes (embarque)-->
+    <record id="stock_picking_batch_inherit_reports_ventacero" model="ir.ui.view">
+        <field name="name">stock.picking.batch.inherit.reports.ventacero</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                <page string="Información adicional" name="info_adicional">
+                    <group>
+                        <group name="campos_camion" string="Camión" attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+                            <field name="entradaCamion" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+                            <field name="salidaCamion" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+                            <field name="referenciaEntrada" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+                            <field name="ticketBascula" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+                            <field name="pesoTicket" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+                        </group>
+                        <group name="campos_personal" string="Personal" attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+                            <field name="transportista_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Transportista')]"/>
+                            <field name="montacarguista_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Empleado')]"/>
+                            <field name="jefeAlmacen_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Empleado')]"/>
+                        </group>
+
+
+                        <group attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}">
+                            <field name="tipo_de_transporte"/>
+                            <field name="unidad"/>
+                        </group>
+                        <group attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}">
+                            <field name="km_inicial"/>
+                            <field name="destino"/>
+                            <field name="km_destino"/>
+                        </group>
+                        <group invisible="1">
+                            <field name="cantidad_lineas"/>
+                            <field name="cantidad_lineas_entregadas"/>
+                            <field name="kilos"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Nota" name="note">
+                    <field name="note" string="Nota" placeholder="Add an internal note that will be printed on the Picking Operations sheet"/>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="estado_de_entrega" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                <field name="nivel_de_servicio" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--Herencia de vista tree de traslado por lotes (embarque)-->
+    <record id="stock_picking_batch_tree_inherit_reports_ventacero" model="ir.ui.view">
+        <field name="name">stock.picking.batch.tree.inherit.reports.ventacero</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="unidad" optional="hide"/>
+                <field name="kilos" string="KG" optional="hide"/>
+                <field name="ticketBascula" string="N° de ticket" optional="hide"/>
+                <field name="cantidad_facturas" optional="hide"/>
+                <field name="montacarguista_id" optional="hide"/>
+                <field name="cantidad_lineas" optional="hide"/>
+                <field name="cantidad_lineas_entregadas" optional="hide"/>
+                <field name="nivel_de_servicio" optional="hide"/>
+                <field name="estado_de_entrega" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

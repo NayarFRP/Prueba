@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="wizard_cash_control_close_form" model="ir.ui.view">
+      <field name="name">wizard.cash.control.close.form</field>
+      <field name="model">wizard.cash.control.close</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="journal_id" domain="[('type', '=', 'bank')]"/>
+          </group>
+          <footer>
+            <button name="b_cerrar" string="Cerrar" type="object" class="btn-primary"/>
+            <button string="Cancelar" class="btn-secondary" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+
+    <record id="wizard_cash_control_close_action" model="ir.actions.act_window">
+        <field name="name">Cerrar caja</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.cash.control.close</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

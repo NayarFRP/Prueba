@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_saleorder_document_inherit_sale_ventacero" inherit_id="sale.report_saleorder_document">
+
+        <xpath expr="/t/t/div/table/tbody/t[2]/tr/t[1]/td[2]/span[1]" position="attributes">
+            <attribute name="t-options">{'precision': 2}</attribute>
+        </xpath>
+
+    </template>
+
+</odoo>

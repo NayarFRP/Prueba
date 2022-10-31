@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="product_template_inherit_sale_ventacero" model="ir.ui.view">
+      <field name="name">product.template.inherit.sale.ventacero</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//form[1]/sheet[@name='product_form']/notebook[1]/page[@name='inventory']/group[@name='inventory']/group[@name='group_lots_and_weight']/div[1]" position="after">
+          <label for="equivalent_weight" attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+            <div class="o_row" name="equivalent_weight" attrs="{'invisible':[('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}">
+                <field name="equivalent_weight"/>
+                <span><field name="weight_uom_name"/></span>
+            </div>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>
