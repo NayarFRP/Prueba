@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_picking_inherit_purchase_ventacero" model="ir.ui.view">
+    <field name="name">stock.picking.inherit.purchase.ventacero</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+          <field name="demand_uom_p" digits="[12,2]" optional="show"/>
+          <field name="done_uom_p" digits="[12,2]" optional="show"/>
+          <field name="product_uom_p" optional="show"/>
+        </xpath> 
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom_qty']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='quantity_done']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="attributes">
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='extra']/group[1]/group[@name='carrier_data']/div[not(@name)][1]/field[@name='weight']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/header[1]/button[@name='button_validate']" position="attributes">
+          <attribute name="groups"></attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/header[1]/button[@name='button_validate'][2]" position="attributes">
+          <attribute name="groups"></attribute>
+        </xpath>
+
+    </field>
+  </record>  
+</odoo>

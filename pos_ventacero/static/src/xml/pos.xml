@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='cashier']" position="replace">
+            <div>
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-if='receipt.total_discount']" position="replace">
+            <div>
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-if='receipt.table and receipt.customer_count']" position="replace">
+            <div>
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-if='receipt.table']" position="replace">
+            <div>
+            </div>
+        </xpath>
+    </t>
+
+
+    <t t-name="OrderLinesReceipt" t-inherit="point_of_sale.OrderLinesReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//t[@t-else='']" position="replace">
+            <div>(__) <t t-esc="line.product_name_wrapped[0]" /></div>
+            <WrappedProductNameLines line="line" />
+            <t t-if="line.display_discount_policy == 'without_discount' and line.price != line.price_lst">
+                <div>
+                </div>
+            </t>
+            <t t-elif="line.discount !== 0">
+                <div class="pos-receipt-left-padding">
+                    <t t-if="env.pos.config.iface_tax_included === 'total'">
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price_with_tax_before_discount)"/>
+                    </t>
+                    <t t-else="">
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price)"/>
+                    </t>
+                </div>
+            </t>
+            <t t-if="line.discount !== 0">
+                <div class="pos-receipt-left-padding">
+                    Discount: <t t-esc="line.discount" />%
+                </div>
+            </t>
+            <div class="pos-receipt-left-padding">
+                <t t-esc="Math.round(line.quantity * Math.pow(10, env.pos.dp['Product Unit of Measure'])) / Math.pow(10, env.pos.dp['Product Unit of Measure'])"/>
+                <span> </span>
+                <t t-if="!line.is_in_unit" t-esc="line.unit_name" />
+                x
+                <t t-esc="env.pos.format_currency_no_symbol(line.price_display_one)" />
+                <span class="price_display pos-receipt-right-align">
+                    <t t-esc="env.pos.format_currency_no_symbol(line.price_display)" />
+                </span>
+            </div>
+            <p></p>
+        </xpath>
+    </t>
+
+    <t t-name="TableGuestsButton" t-inherit="pos_restaurant.TableGuestsButton" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='control-button']" position="replace">
+            <div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

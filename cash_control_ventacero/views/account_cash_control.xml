@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record id="account_cash_control_tree" model="ir.ui.view">
+    <field name="name">account.cash.control.tree</field> 
+    <field name="model">account.cash.control</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="team_id"/>
+        <field name="user_id"/>
+        <field name="date_begin"/>
+        <field name="date_end"/>
+        <field name="state"/>
+      </tree>
+    </field> 
+  </record>
+
+  <record id="account_cash_control_form" model="ir.ui.view"> 
+    <field name="name">account.cash.control.form</field> 
+    <field name="model">account.cash.control</field>
+    <field name="arch" type="xml">
+      <form string="Caja">
+          <header>
+              <button name="cash_control_open" type="object" states="draft" string="Abrir" class="oe_highlight"/>
+              <button name="cash_control_out" type="object" states="open" string="Retiro de efectivo" class="oe_highlight"/>
+              <!--<button name="cash_control_in" type="object" states="open" string="Ingreso de efectivo" class="oe_highlight"/>-->
+              <button name="cash_control_close_1" type="object" states="open" string="Iniciar cierre" class="oe_highlight"/>
+              <button name="cash_control_close_2" type="object" states="closing" string="Cerrar" class="oe_highlight"/>
+              <field name="state" widget="statusbar" readonly="1"/>
+          </header>
+          <sheet>
+              <group>
+                <div class="oe_title">
+                  <h1>
+                    <field name="name" class="o_task_name text-truncate" readonly="1" placeholder="Nombre"/>
+                  </h1>
+                </div>
+              </group>
+              <group>
+                <group>
+                  <field name="team_id" readonly="1"/>
+                  <field name="user_id" readonly="1"/>
+                </group>
+                <group>
+                  <field name="date_begin" readonly="1"/>
+                  <field name="date_end" readonly="1"/>
+                </group>
+              </group>
+
+              <notebook>
+                <page string="Saldo">  
+                  <field name="account_cash_control_balance_id" readonly="1" nolabel="1">
+                    <tree>
+                      <field name="journal_id"/>
+                      <field name="initial_balance"/>
+                      <field name="sale_balance"/>
+                      <field name="in_balance"/>
+                      <field name="out_balance"/>
+                      <field name="ending_balance"/>
+                    </tree>
+                  </field>
+                </page>
+
+                <page string="Operaciones detalladas">  
+                  <field name="account_cash_control_operations_id" readonly="1" nolabel="1">
+                    <tree>
+                      <field name="name"/>
+                      <field name="journal_id"/>
+                      <field name="partner_id"/>
+                      <field name="l10n_mx_edi_payment_method_id"/>
+                      <field name="amount"/>
+                      <field name="state"/>
+                    </tree>
+                  </field>
+                </page>
+
+                <page string="Ingresos/Retiros Efectivo">  
+                  <field name="account_cash_control_transfers_id" readonly="1" nolabel="1">
+                    <tree>
+                      <field name="name"/>
+                      <field name="journal_orig_id"/>
+                      <field name="journal_dest_id"/>
+                      <field name="amount"/>
+                    </tree>
+                  </field>
+                </page>
+
+                <page string="Control de cierre" attrs="{'invisible': [('state', '!=', 'closing')]}">
+                  <group>
+                    <field name="account_cash_control_close_id" nolabel="1">
+                      <tree editable="bottom" delete="false" create="false">
+                        <field name="journal_id" readonly="1"/>
+                        <field name="expected_amount" sum="Total" readonly="1"/>
+                        <field name="counted_amount" sum="Total"/>
+                        <field name="diference" sum="Total" readonly="1"/>
+                      </tree>
+                    </field>
+                  </group>
+                  <group>
+                    <field name="diference_total"/>
+                    <field name="allow_close" widget="boolean_toggle" attrs="{'invisible': [('diference_total', '>=', 0)]}" groups="base.group_no_one"/>
+                  </group>
+                </page>
+              </notebook>
+          </sheet>
+          <div class="oe_chatter">
+              <field name="message_follower_ids" groups="base.group_user"/>
+              <field name="activity_ids"/>
+              <field name="message_ids"/>
+          </div>
+      </form>
+    </field> 
+  </record>
+</odoo>

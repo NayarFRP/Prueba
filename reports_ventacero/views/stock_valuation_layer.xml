@@ -1,0 +1,49 @@
+<odoo>
+  <data>
+    <record id="stock_valuation_layer_inherit_reports_ventacero" model="ir.ui.view">
+      <field name="name">stock.valuation.layer.inherit.reports.ventacero</field>
+      <field name="model">stock.valuation.layer</field>
+      <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+      <field name="arch" type="xml">
+       
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Reporte" name="report">
+              <group>
+                  <field name="entrada_c"/>
+                  <field name="salida_c"/>
+                  <field name="saldo_c"/>
+                  <field name="entrada_s"/>
+                  <field name="salida_s"/>
+                  <field name="saldo_s"/>
+                  <field name="costo_promedio"/>
+              </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+
+    <record id="stock_valuation_layer_kardex_tree" model="ir.ui.view">
+      <field name="name">stock.valuation.layer.kardex.tree</field> 
+      <field name="model">stock.valuation.layer</field>
+      <field name="arch" type="xml">
+        <tree>          
+          <field name="create_date" string="Fecha"/>
+          <field name="product_id"/>
+          <field name="note"/>
+          <field name="entrada_c"/>
+          <field name="salida_c"/>
+          <field name="saldo_c"/>
+          <field name="product_uom_p" string="UdM"/>
+          <field name="currency_id" invisible="1"/>
+          <field name="unit_cost_uom_p" string="Costo" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="entrada_s" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="salida_s" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="saldo_s" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+          <field name="costo_promedio" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+        </tree>
+      </field> 
+    </record>
+
+  </data>
+</odoo>

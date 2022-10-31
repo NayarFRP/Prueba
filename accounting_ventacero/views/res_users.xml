@@ -1,0 +1,33 @@
+<odoo>
+  <data>
+    <record id="res_users_inherit_accounting_ventacero" model="ir.ui.view">
+      <field name="name">res.users.inherit.accounting.ventacero</field>
+      <field name="model">res.users</field>
+      <field name="inherit_id" ref="base.view_users_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Analíticas" name="analiticas">
+            <group>
+              <group>
+                <field name="account_analytic_account_ids" readonly="0" nolabel="1">
+                  <tree>
+                    <field name="name" readonly="1"/>
+                  </tree>
+                </field>
+              </group>
+              <group>
+                <field name="account_analytic_tag_ids" readonly="0" nolabel="1">
+                  <tree>
+                    <field name="name" readonly="1"/>
+                  </tree>
+                </field>
+              </group>
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

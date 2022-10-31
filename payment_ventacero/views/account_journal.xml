@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+    <record id="account_journal_inherit_payment_ventacero" model="ir.ui.view">
+      <field name="name">account.journal.inherit.payment.ventacero</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.view_account_journal_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//group[@name='group_alias_edit']" position="after">
+          <group string="Pago por lotes">
+              <field name="payment_batch" widget="boolean_toggle"/>
+          </group>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

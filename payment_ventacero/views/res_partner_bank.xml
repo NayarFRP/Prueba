@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+    <record id="res_partner_bank_inherit_payment_ventacero" model="ir.ui.view">
+      <field name="name">res.partner.bank.inherit.payment.ventacero</field>
+      <field name="model">res.partner.bank</field>
+      <field name="inherit_id" ref="base.view_partner_bank_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//field[@name='acc_number']" position="before">
+          <field name="account_type"/>
+        </xpath>
+
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="codigo_terceros"/>
+          <field name="referencia_numerica"/>
+          <field name="referencia_alfanumerica"/>
+        </xpath>
+
+        <xpath expr="//field[@name='acc_holder_name']" position="after">
+          <field name="descripcion_pago"/>
+          <field name="descripcion_pago_2"/>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

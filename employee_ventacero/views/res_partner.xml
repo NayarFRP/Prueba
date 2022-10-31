@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <record id="res_partner_inherit_employee_ventacero" model="ir.ui.view">
+      <field name="name">res.partner.inherit.employee.ventacero</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.res_partner_view_form_private"/>
+      <field name="arch" type="xml">
+      
+        <xpath expr="//field[@name='email']" position="after">
+          <field name="l10n_mx_edi_curp"/>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

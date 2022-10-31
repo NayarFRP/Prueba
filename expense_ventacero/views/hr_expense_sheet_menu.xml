@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="get_hr_expense_sheet_view" model="ir.actions.act_window">
+        <field name="name">Reportes por reembolsar</field>
+        <field name="res_model">hr.expense.sheet</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field name="search_view_id" ref="expense_ventacero.hr_expense_sheet_inherit_expense_ventacero_2"/>
+        <field name="context">{'search_default_to_refund': 1}</field>
+        <field name="view_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            No se encontraron reportes de gastos
+            </p><p>
+            Reembolse a los empleados que tuvieron estos costos o simplemente registre los pagos correspondientes.
+            </p>
+        </field>
+    </record>
+
+    <record id="expense_ventacero.hr_expense_sheet_menu" model="ir.ui.menu">
+        <field name="action" ref="expense_ventacero.get_hr_expense_sheet_view"/>
+        <field name="active" eval="True"/>
+        <field name="groups_id" eval="[(6, 0, [])]"/>
+        <field name="name">Reportes por reembolsar</field>
+        <field name="parent_id" ref="hr_expense.menu_hr_expense_report"/>
+        <field name="sequence">4</field>
+        <field name="web_icon" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="product_template_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">product.template.inherit.stock.ventacero</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//form[@name='Product Template']/sheet[@name='product_form']/notebook[1]/page[@name='inventory']/group[@name='inventory']/group[@name='group_lots_and_weight']/div[@name='weight']/field[@name='weight']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//form[@name='Product Template']/sheet[@name='product_form']/notebook[1]/page[@name='invoicing']/group[@name='accounting']/group[@name='unspsc']/field[@name='weight']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+    </field>
+  </record>
+
+</odoo>

@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <record id="sale_order_inherit_accounting_ventacero" model="ir.ui.view">
+      <field name="name">sale.order.inherit.accounting.ventacero</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//field[@name='analytic_account_id']" position="after">
+            <field name="l10n_mx_edi_payment_method_id" readonly="1"/>
+            <field name="l10n_mx_edi_usage" readonly="1"/>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

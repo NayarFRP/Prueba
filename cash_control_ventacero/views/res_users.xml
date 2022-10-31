@@ -1,0 +1,24 @@
+<odoo>
+  <data>
+    <record id="res_users_inherit_cash_control_ventacero" model="ir.ui.view">
+      <field name="name">res.users.inherit.cash.control.ventacero</field>
+      <field name="model">res.users</field>
+      <field name="inherit_id" ref="base.view_users_form"/>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Configuración" name="configuracion">
+            <group>
+              <group>
+                <field name="team_id"/>
+              </group>
+              <group>
+              </group>
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

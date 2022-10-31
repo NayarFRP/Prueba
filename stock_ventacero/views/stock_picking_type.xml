@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_picking_type_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">stock.picking.type.inherit.stock.ventacero</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="stock.view_picking_type_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//form[1]/sheet[1]/group[2]" position="after">
+        <notebook name="notebook">
+          <page string="Usuarios permitidos" name="allowed_users">
+            <group name="allowed_users_field">
+              <field name="allowed_users">
+                <tree>
+                  <field name="name"/>
+                </tree>
+              </field>
+            </group>
+          </page>
+        </notebook>
+      </xpath>
+
+      <xpath expr="//field[@name='show_operations']" position="before">
+        <field name="internal_transfer" widget="boolean_toggle"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_picking_type_inherit_stock_ventacero_2" model="ir.ui.view">
+    <field name="name">stock.picking.type.inherit.stock.ventacero.2</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[3]/div[1]/div[2]/div[2]" position="replace">
+        
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

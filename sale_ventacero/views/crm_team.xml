@@ -1,0 +1,31 @@
+<odoo>
+  <data>
+    <record id="crm_team_inherit_sale_ventacero" model="ir.ui.view">
+      <field name="name">crm.team.inherit.sale.ventacero</field>
+      <field name="model">crm.team</field>
+      <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//page[@name='members_users']" position="after">
+          <page string="Configuración" name="config">
+            <group>
+              <group string="Punto de Venta">
+                <field name="partner_id"/>
+                <field name="customer_id"/>
+                <field name="warehouse_id"/>
+              </group>
+              <group string="Ticket">
+                <field name="show_discount" widget="boolean_toggle"/>
+                <field name="ticket_message"/>
+              </group>
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+
+
+    
+  </data>
+</odoo>

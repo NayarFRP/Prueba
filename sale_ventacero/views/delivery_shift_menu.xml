@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="get_cerrar_turno_view" model="ir.actions.act_window">
+        <field name="name">Turnos cerrados</field>
+        <field name="res_model">delivery.shift</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Crea nuevo registro
+            </p>
+        </field>
+    </record>
+
+    <record id="get_delivery_shift_view" model="ir.actions.act_window">
+        <field name="name">Turnos cerrados</field>
+        <field name="res_model">delivery.shift</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Crea nuevo registro
+            </p>
+        </field>
+    </record>
+
+    <record id="get_delivery_shift_view_sale" model="ir.actions.act_window">
+        <field name="name">Turnos cerrados</field>
+        <field name="res_model">delivery.shift</field>
+        <field name="view_mode">calendar</field>
+        <field name="context">{'create': False, 'edit': False}</field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Crea nuevo registro
+            </p>
+        </field>
+    </record>
+
+    <record id="sale_ventacero.cerrar_turno_menu" model="ir.ui.menu">
+        <field name="action" ref="sale_ventacero.get_cerrar_turno_view"/>
+        <field name="active" eval="True"/>
+        <field name="groups_id" eval="[(6, 0, [])]"/>
+        <field name="name">Cerrar turno</field>
+        <field name="parent_id" ref="sale.menu_sale_config"/>
+        <field name="sequence">11</field>
+        <field name="web_icon" eval="False"/>
+    </record>
+
+    <record id="sale_ventacero.delivery_shift_menu" model="ir.ui.menu">
+        <field name="action" ref="sale_ventacero.get_delivery_shift_view"/>
+        <field name="active" eval="True"/>
+        <field name="groups_id" eval="[(6, 0, [])]"/>
+        <field name="name">Turnos cerrados</field>
+        <field name="parent_id" ref="sale.menu_sale_config"/>
+        <field name="sequence">12</field>
+        <field name="web_icon" eval="False"/>
+    </record>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_picking_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">stock.picking.inherit.stock.ventacero</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//group[@name='carrier_data']" position="before">
+          <group name="campos_camion" string="Camión" attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+              <field name="entradaCamion" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+              <field name="salidaCamion" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+              <field name="referenciaEntrada" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+              <field name="ticketBascula" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+              <field name="pesoTicket" attrs="{'readonly': [('state', 'in', ('done'))]}"/>
+          </group>
+          <group name="campos_personal" string="Personal" attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+              <field name="transportista_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Transportista')]"/>
+              <field name="montacarguista_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Empleado')]"/>
+              <field name="jefeAlmacen_id" attrs="{'readonly': [('state', 'in', ('done'))]}" domain="[('category_id', 'ilike', 'Empleado')]"/>
+          </group>
+        </xpath>
+
+        <xpath expr="//field[@name='carrier_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_picking_inherit_stock_ventacero_2" model="ir.ui.view">
+    <field name="name">stock.picking.inherit.stock.ventacero.2</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='location_dest_id']" position="attributes">
+        <attribute name="groups"></attribute>
+        <attribute name="attrs"></attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

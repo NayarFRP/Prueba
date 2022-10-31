@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_location_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">stock.location.inherit.stock.ventacero</field>
+    <field name="model">stock.location</field>
+    <field name="inherit_id" ref="stock.view_location_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//form[1]/sheet[1]/group[1]" position="after">
+        <notebook name="notebook">
+          <page string="Usuarios permitidos" name="allowed_users">
+            <group name="allowed_users_field">
+              <field name="allowed_users">
+                <tree>
+                  <field name="name"/>
+                </tree>
+            </field>
+            </group>
+          </page>
+        </notebook>
+      </xpath>
+
+    </field>
+  </record>  
+</odoo>

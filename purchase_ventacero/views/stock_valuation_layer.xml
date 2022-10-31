@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_valuation_layer_inherit_purchase_ventacero" model="ir.ui.view">
+    <field name="name">stock.valuation.layer.inherit.purchase.ventacero</field>
+    <field name="model">stock.valuation.layer</field>
+    <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='uom_id']" position="attributes">
+          <attribute name="string">UdM Venta</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='uom_id']" position="after">
+          <field name="quantity_uom_p" optional="show"/>
+          <field name="product_uom_p" optional="show"/>
+        </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_valuation_layer_inherit_purchase_ventacero_2" model="ir.ui.view">
+    <field name="name">stock.valuation.layer.inherit.purchase.ventacero.2</field>
+    <field name="model">stock.valuation.layer</field>
+    <field name="inherit_id" ref="stock_account.stock_valuation_layer_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='quantity']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='remaining_qty']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='uom_id']" position="attributes">
+          <attribute name="string">UdM Venta</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='unit_cost']" position="attributes">
+          <attribute name="string">Valor unitario UdM Venta</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='uom_id']" position="after">
+          <field name="quantity_uom_p"/>
+          <field name="product_uom_p"/>
+        </xpath>
+
+        <xpath expr="//field[@name='unit_cost']" position="after">
+          <field name="unit_cost_uom_p"/>
+        </xpath>
+        
+    </field>
+  </record>
+
+</odoo>

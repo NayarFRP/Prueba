@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="res_partner_inherit_accounting_ventacero" model="ir.ui.view">
+    <field name="name">res.partner.inherit.accounting.ventacero</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.view_partner_property_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='property_payment_term_id']" position="after">
+        <field name="l10n_mx_edi_payment_method_id"/>
+        <field name="l10n_mx_edi_usage"/>
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

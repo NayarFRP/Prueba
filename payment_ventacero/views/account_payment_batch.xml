@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record id="account_payment_batch_tree" model="ir.ui.view">
+    <field name="name">account.payment.batch.tree</field> 
+    <field name="model">account.payment.batch</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="payment_mode"/>
+        <field name="journal_id"/>
+        <field name="date"/>
+      </tree>
+    </field> 
+  </record>
+
+  <record id="approval_criteria_form" model="ir.ui.view"> 
+    <field name="name">account.payment.batch.form</field> 
+    <field name="model">account.payment.batch</field>
+    <field name="arch" type="xml">
+      <form string="Lote de pago">
+          <header>
+              <button name="action_confirm" type="object" states="draft" string="Confirmar pagos" class="oe_highlight"/>
+              <button name="action_generate_file" type="object" string="Generar fichero" class="oe_highlight" attrs="{'invisible': ['|', ('payment_mode', '=', 'check'), ('state', '!=', 'confirmed')]}"/>
+              <button name="action_generate_check" type="object" string="Imprimir cheque" class="oe_highlight" attrs="{'invisible': ['|', ('payment_mode', '=', 'transfer'), ('state', '!=', 'confirmed')]}"/>
+              <button name="action_file_uploaded" type="object" string="Fichero cargado" class="oe_highlight" attrs="{'invisible': ['|', ('payment_mode', '=', 'check'), ('state', '!=', 'generated')]}"/>
+              <button name="action_check_deposited" type="object" string="Cheque depositado" class="oe_highlight" attrs="{'invisible': ['|', ('payment_mode', '=', 'transfer'), ('state', '!=', 'generated')]}"/>
+              <button name="action_new" type="object" states="confirmed,generated,uploaded,done" string="Regresar a nuevo"/>
+              <button name="action_done" type="object" states="uploaded" string="Registrar pagos" class="oe_highlight"/>
+              <button name="action_cancel" type="object" states="draft,confirmed,generated" string="Cancelar"/>
+              <field name="state" widget="statusbar" readonly="1"/>
+          </header>
+          <sheet>
+              <div class="oe_button_box" name="button_box">
+                <button type="object" name="action_view_payments" class="oe_stat_button" icon="fa-usd" attrs="{'invisible': [('payment_count', '=', 0)]}">
+                  <field string="Pagos" name="payment_count" widget="statinfo"/>
+                </button>
+              </div>
+              <group>
+                <div class="oe_title">
+                  <h1>
+                    <field name="name" class="o_task_name text-truncate" readonly="1" placeholder="Nombre"/>
+                  </h1>
+                </div>
+              </group>
+              <group>
+                <group>
+                  <field name="payment_mode" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                  <field name="journal_id" required="1" domain="[('payment_batch', '=', True)]" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                </group>
+                <group>
+                  <field name="date" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                  <field name="user_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                </group>
+              </group>
+              <group>
+                <group>
+                  <field name="payment_type" attrs="{'invisible': [('payment_mode', '!=', 'check')]}"/>
+                  <field name="ref" readonly="1" attrs="{'invisible': [('payment_mode', '!=', 'check')]}"/>
+                  <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': ['|', ('payment_mode', '!=', 'check'), ('payment_type', '!=', 'invoice')], 'required': [('payment_type', '=', 'invoice'), ('payment_mode', '=', 'check')]}"/>
+                  <field name="account_id" attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': ['|', ('payment_mode', '!=', 'check'), ('payment_type', '!=', 'account')], 'required': [('payment_type', '=', 'account'), ('payment_mode', '=', 'check')]}"/>
+                </group>
+                <group>
+                  <field name="add_leyenda"  widget="boolean_toggle" attrs="{'invisible': [('payment_mode', '!=', 'check')]}"/>
+                  <field name="leyenda" attrs="{'invisible': [('add_leyenda', '=', False)]}"/>
+                </group>
+              </group>
+              <notebook>
+                <page string="Facturas" attrs="{'invisible': [('payment_type', '!=', 'invoice')]}">  
+                  <field name="account_move_ids" readonly="0" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}" context="{'tree_view_ref' : 'account.view_move_tree'}" domain="[('partner_id', '=?', partner_id), ('state', '=', 'posted'), ('move_type', '=', 'in_invoice'), ('amount_residual', '>', 0)]">
+                    <tree>
+                      <field name="name" readonly="1"/>
+                      <field name="partner_id" readonly="1"/>
+                      <field name="invoice_date" readonly="1"/>
+                      <field name="invoice_date_due" readonly="1"/>
+                      <field name="ref" readonly="1"/>
+                      <field name="amount_total" readonly="1" sum="Total"/>
+                      <field name="amount_residual" readonly="1" sum="Total"/>
+                      <field name="currency_id" readonly="1"/>
+                      <field name="amount_residual_signed" readonly="1" sum="Total"/>
+                      <field name="company_currency_id" readonly="1"/>
+                    </tree>
+                  </field>
+                </page>
+                <page string="Cheque" attrs="{'invisible': [('payment_type', '!=', 'account')]}">  
+                  <group>
+                    <group>
+                      <field name="partner_name" attrs="{'required': [('payment_type', '=', 'account')]}"/>
+                    </group>
+                    <group>
+                      <field name="payment_amount" widget="monetary" attrs="{'required': [('payment_type', '=', 'account')]}"/>
+                    </group>
+                  </group>
+                </page>
+                <page string="Líneas de pago">  
+                  <field name="payment_batch_line_ids" readonly="1">
+                    <tree>
+                      <field name="partner_id"/>
+                      <field name="ref"/>
+                      <field name="bank_account_id"/>
+                      <field name="account_move_ids" widget="many2many_tags" string="Facturas"/>
+                      <field name="date"/>
+                      <field name="amount" widget="monetary" sum="Total"/>
+                      <field name="currency_id"/>
+                    </tree>
+                  </field>
+                </page>
+              </notebook>
+          </sheet>
+          <div class="oe_chatter">
+              <field name="message_follower_ids" groups="base.group_user"/>
+              <field name="activity_ids"/>
+              <field name="message_ids"/>
+          </div>
+      </form>
+    </field> 
+  </record>
+</odoo>

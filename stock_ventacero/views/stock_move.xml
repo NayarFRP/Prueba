@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="stock_move_inherit_stock_ventacero" model="ir.ui.view">
+    <field name="name">stock.move.inherit.stock.ventacero</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_tree"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom']" position="after">
+              <field name="demand_uom_p" optional="show" digits="[12,2]"/>
+              <field name="product_uom_p" optional="show"/>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom']" position="attributes">
+          <attribute name="optional">show</attribute>
+        </xpath>
+
+    
+    </field>
+  </record>
+
+  <record id="stock_move_inherit_stock_ventacero_2" model="ir.ui.view">
+    <field name="name">stock.move.inherit.stock.ventacero.2</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="delivery.view_picking_withweight_internal_move_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='weight']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_move_inherit_stock_ventacero_3" model="ir.ui.view">
+    <field name="name">stock.move.inherit.stock.ventacero.3</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_move_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[@name='main_grp']/group[@name='main_grp_col2']/div[1]/field[@name='product_uom_qty']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_move_inherit_stock_ventacero_4" model="ir.ui.view">
+    <field name="name">stock.move.inherit.stock.ventacero.4</field>
+    <field name="model">stock.move</field>
+    <field name="inherit_id" ref="stock.view_picking_move_tree"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+          <attribute name="digits">[12,2]</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='reserved_availability']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='quantity_done']" position="replace">
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom']" position="replace">
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_qty']" position="after">
+          <field name="quantity_done" string="Hecho" digits="[12,2]" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+          <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unidad de medida" groups="uom.group_uom"/>
+          <field name="demand_uom_p"/>
+          <field name="done_uom_p"/>
+          <field name="product_uom_p"/>
+        </xpath>
+
+
+        
+    </field>
+  </record>
+  
+</odoo>

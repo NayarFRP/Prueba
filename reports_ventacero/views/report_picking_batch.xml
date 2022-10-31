@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_talon_embarque_ventacero">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">       
+                        <div class="page">             
+                            <div class="row">  
+                                <div class="col-4 text-center">
+                                    <h4>Talón de embarques</h4>
+                                </div> 
+                                <div class="col-4 text-center">
+                                </div> 
+                                <div class="col-4">
+                                    <div class="text-left">
+                                        <span>Talon:</span>
+                                        <span t-field="o.picking_type_id.warehouse_id.code"/><span>-</span><span t-field="o.picking_type_id.warehouse_id.name"/>
+                                    </div>
+                                    <div class="text-left">
+                                        <span>Folio:</span>
+                                        <span t-field="o.name"/>
+                                    </div>
+                                    <div class="text-left">
+                                        <span>Estatus:</span>
+                                        <span t-field="o.estado_de_entrega"/>
+                                    </div>
+                                    <div class="text-left">
+                                        <span>Fecha:</span>
+                                        <span t-field="o.scheduled_date" t-options='{"format": "dd/MMM/yyyy"}'/>
+                                    </div>
+                                    <div class="text-left">
+                                        <span>Hora:</span>
+                                         <span t-field="o.scheduled_date" t-options='{"format": "HH:mm:ss"}'/>
+                                    </div>
+                                </div> 
+                            </div>
+                                     
+                            <div style="display:flex; margin-bottom: 20px" class="d-flex" >
+                                <div>
+                                    <table style="border-collapse: collapse;">
+                                        <thead>
+                                            <tr>
+                                                <th style="float: left">
+                                                    <span>Operador:</span>
+                                                </th>
+                                                <th style="border-bottom:1px solid #EAEAEA;">
+                                                    <span t-field="o.transportista_id" />
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                <th style="float: left">
+                                                    <span>Tipo:</span>
+                                                </th>
+                                                <th style="border-bottom:1px solid #EAEAEA;">
+                                                    <span t-field="o.tipo_de_transporte" />
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                <th style="float: left">
+                                                    <span>Unidad:</span>
+                                                </th>
+                                                <th style="border-bottom:1px solid #D2D2D2;">
+                                                    <span t-field="o.unidad"/>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                <th style="float: left">
+                                                    <span>Destino:</span>
+                                                </th>
+                                                <th style="border-bottom:1px solid #D2D2D2;">
+                                                    <span t-field="o.destino"/>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div style="margin:0px 0px 0px 31px; padding:31px">
+                                    <table style="border-collapse: collapse">
+                                        <thead>
+                                            <tr>
+                                                 <th style="border-bottom:1px solid #D2D2D2; padding-left:50px">
+                                                    <span t-field="o.km_inicial" t-options="{'precision': 2}"></span>
+                                                </th>
+                                                <th style="float:left">
+                                                    <span>Km. inicial</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                                 <th style="border-bottom:1px solid #D2D2D2; padding-left:50px">
+                                                    <span t-field="o.km_destino" t-options="{'precision': 2}"></span>
+                                                </th>
+                                                <th style="float:left">
+                                                    <span>Km.</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>       
+                                </div>
+                            </div>
+
+                            <div>
+                                <table style="border-collapse: collapse;">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" style="background: #F3F3F3; border-radius: 8px 0px 0px 0px; border-right:1px solid #DADADA">  
+                                            </th>
+                                            <th colspan="2" style="border-bottom:1px solid #DADADA; background: #F3F3F3;" class="text-center">
+                                                <strong>Orden de venta</strong>
+                                            </th>
+                                            <th colspan="3" style="border-bottom:1px solid #DADADA; background: #F3F3F3; border-radius: 0px 8px 0px 0px" class="text-center">
+                                                <strong>Factura</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <thead >
+                                        <tr>
+                                            <th style="padding: 10px; background: #F3F3F3; border-radius: 0px 0px 0px 8px">
+                                                <strong>Tipo</strong>
+                                            </th>
+                                            <th style="background: #F3F3F3;">
+                                                <strong>Doc</strong>
+                                            </th>
+                                            <th style="padding: 7p; background: #F3F3F3;">
+                                                <strong>Cliente</strong>
+                                            </th>
+                                            <th style="padding: 7px; background: #F3F3F3; border-right:1px solid #D2D2D2;">
+                                                <strong>Kilos</strong>
+                                            </th>
+                                            <th style="padding: 7px; background: #F3F3F3;">
+                                                <strong>Elaboracion</strong>
+                                            </th>
+                                            <th style="border-right:1px solid #DADADA; padding: 7px; background: #F3F3F3;" class="text-center">
+                                                <strong>Fecha <br/> Compromiso</strong>
+                                            </th>
+                                            <th style="padding: 7px; background: #F3F3F3;">
+                                                <strong>F.Pago</strong>
+                                            </th>
+                                            <th style="padding: 7px; background: #F3F3F3;" class="text-center">
+                                                <strong>Total Factura</strong>
+                                            </th>
+                                            <th style="padding: 7px; background: #F3F3F3;">
+                                                <strong>Entregado</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.picking_ids" t-as="ml">
+                                            <tr>
+                                                <td style="padding: 3px;">
+                                                    <span>FACTURA</span>
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span t-field="ml.account_move_ids"/>
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span t-field="ml.partner_id"/>
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span t-field="ml.weight" t-options="{'precision': 2}"/>
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span t-field="ml.create_date" t-options='{"format": "dd/MMM/yyyy"}'/>
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span t-field="ml.date_deadline" t-options='{"format": "dd/MMM/yyyy"}'/>
+                                                </td>
+                                                <td style="padding: 3px;" class="text-center">                                    
+                                                    <t t-foreach="ml.account_move_ids" t-as="fb">
+                                                        <span t-field="fb.l10n_mx_edi_payment_method_id.name"/>
+                                                    </t> 
+                                                </td>
+                                                <td style="padding: 3px;" class="text-center">
+                                                    <t t-foreach="ml.account_move_ids" t-as="fa">
+                                                        <span t-field="fa.amount_total"/>
+                                                    </t> 
+                                                </td>
+                                                <td style="padding: 3px;">
+                                                    <span/>
+                                                </td>
+                                            </tr>   
+                                        </t>                             
+                                    </tbody>
+                                    <tfoot>
+                                    <t t-set="total_price" t-value="0"/>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td class="text-center">
+                                                <strong t-field="o.kilos" t-options="{'precision': 2}"></strong>
+                                            </td>
+                                            <td colspan="3"></td>
+                                            <td class="text-center">
+                                                <t t-foreach="o.picking_ids" t-as="ml">
+                                                    <t t-foreach="ml.account_move_ids" t-as="fa">
+                                                        <t t-set="total_price" t-value="total_price +  fa.amount_total" t-options="{'precision': 2}"/>
+                                                    </t>
+                                                </t>
+                                                <strong>
+                                                    <span>$</span><t t-esc="total_price"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>           
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-4">
+                                    <div class="text-left">
+                                        <span>No.Ticket:</span>
+                                        <span t-field="o.ticketBascula" style="border-bottom:1px solid #EAEAEA; min-width: 50px"/>
+                                    </div>
+                                    <div class="text-left">
+                                        <span>Kilos bascula:</span>
+                                        <span t-field="o.kilos" style="border-bottom:1px solid #EAEAEA; min-width: 50px"/>
+                                    </div>
+                                </div>
+                                <div class="col-8" style="background: #F3F3F3; min-height: 100px; border-radius: 8px">
+                                    <span>Comentarios:</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 80px">
+                                <div class="text-center">
+                                    En caso de cualquier contratiempo con la entrega (retraso, kilometraje adicional, maniobras) comunicarse al (8711) 748-1550 De lo contrario recibirá sanciones
+                                </div>
+                                <div class="row text-center" style="margin-top: 70px">
+                                    <div class="col-1 text-center" style="width:40px"></div>
+                                    <div class="col-3 text-center" style="border-top:1px solid #A5A5A5; margin:0px 12px 0px 40px; width:300px">
+                                        <span>Transportista</span>
+                                    </div>
+                                    <div class="col-3 text-center" style="border-top:1px solid #A5A5A5; margin:0px 12px 0px 12px; width:300px">
+                                        <span>Vigilancia</span>
+                                    </div>
+                                    <div class="col-3 text-center" style="border-top:1px solid #A5A5A5; margin:0px 0px 0px 12px; width:300px">
+                                        <span>Coordinador de embarques</span>
+                                    </div>
+                                     <div class="col-1 text-center" style="width:40px"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report id="report_talon_embarque"
+            string="Talon de embarque"
+            model="stock.picking.batch"
+            report_type="qweb-pdf"
+            name="reports_ventacero.report_talon_embarque_ventacero"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <template id="factura_ticket_report_print">
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <div class="page article">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div style="text-align:center;">
+                <img class="img-fluid" t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 130px;text-align:center;"/>
+            </div>
+            <div style="text-align:center; font-size: 20px; margin-top:20px">
+                <strong>
+                    <t t-esc="company.name"/>
+                    <t t-esc="o.team_id.name"/>
+                </strong>
+            </div>
+            <div style="text-align:center; font-size: 15px;">
+                <t t-esc="o.team_id.partner_id.street_name"/>
+                <t t-esc="o.team_id.partner_id.street_number"/>,
+                <t t-esc="o.team_id.partner_id.l10n_mx_edi_colony"/>,
+                <t t-esc="o.team_id.partner_id.city_id.name"/>,
+                <t t-esc="o.team_id.partner_id.state_id.name"/>,
+                <t t-esc="o.team_id.partner_id.country_id.name"/>
+            </div>
+            <div style="text-align:center; font-size: 15px;">
+                <t t-esc="o.team_id.partner_id.phone"/>
+            </div>
+
+            <hr style="width:100%;text-align:left;margin-left:0"/>
+            
+            <div style="font-size: 13px;">
+                <div class="row" t-if="o.invoice_date">
+                    <div class="col-3">Fecha</div>:
+                    <div class="col-9">
+                        <p class="m-0" t-field="o.write_date"/>
+                    </div>
+                </div>
+                <div class="row" t-if="o.invoice_origin">
+                    <div class="col-3">Pedido</div>:
+                    <div class="col-9">
+                        <p class="m-0" t-field="o.invoice_origin"/>
+                    </div>
+                </div>
+                <div class="row" t-if="o.invoice_origin">
+                    <div class="col-3">Factura</div>:
+                    <div class="col-9">
+                        <p class="m-0" t-field="o.name"/>
+                    </div>
+                </div>
+                <div class="row" t-if="o.partner_id">
+                    <div class="col-3">Cliente</div>:
+                    <div class="col-9">
+                        <p class="m-0" t-field="o.partner_id.name"/>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="width:100%;text-align:left;margin-left:0"/>
+
+            <div style="font-size: 11px;">
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th><span></span></th>
+                            <th class="text-right"><span>Cant</span></th>
+                            <th class="text-left"><span>Articulo</span></th>
+                            <th class="text-right"><span>P. Unit</span></th>
+                            <th class="text-right"><span>Total</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <t t-set="aux_discount" t-value="0"/>
+                        <t t-set="lines" t-value="o.invoice_line_ids"/>
+
+                        <t t-foreach="lines" t-as="line">
+                            <tr>
+                                <td class="text-left">
+                                    <span>(___)</span>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.quantity" t-options='{"widget": "float", "precision": 1}'/>
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="line.product_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="line.price_unit * line.quantity" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                                    <t t-set="aux_discount" t-value="aux_discount + ((line.price_unit * line.quantity) - line.price_subtotal)"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <hr style="width:100%;text-align:left;margin-left:0"/>
+
+                <div style="text-align:center; font-size: 20px; margin-top:20px" t-if="o.team_id.show_discount">
+                    <strong>
+                        <t>DESCUENTO</t>
+                        <t t-esc="aux_discount" t-options='{"widget": "monetary", "display_currency": line.currency_id}'/>
+                    </strong>
+                </div>
+
+            </div>
+
+            <div style="font-size: 13px; margin-top:30px">
+                <table class="table table-sm">
+                    <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
+                    <t t-call="account.document_tax_totals"/>
+                </table>
+            </div>
+
+            <hr style="width:100%;text-align:left;margin-left:0"/>
+            
+            <div style="text-align:justify; font-size: 15px; margin-top:20px">
+                <t t-esc="o.team_id.ticket_message"/>
+            </div>
+        </div>
+    </template>
+
+    <template id="factura_ticket_report" name="factura_ticket_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+            <t t-call="sale_ventacero.factura_ticket_report_print" t-lang="lang"/>
+          </t>
+        </t>
+    </template>
+
+    <record id="paperformat_factura_ticket" model="report.paperformat">
+        <field name="name">Ticket</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">250</field>
+        <field name="page_width">79</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">1</field>
+        <field name="margin_right">1</field>
+        <field name="header_line" eval="False" />
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="report_invoice_ticket" model="ir.actions.report">
+        <field name="name">Factura ticket</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_ventacero.factura_ticket_report</field>
+        <field name="report_file">sale_ventacero.factura_ticket_report</field>
+        <field name="print_report_name">'Ticket - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="sale_ventacero.paperformat_factura_ticket"/>
+    </record>
+</odoo>

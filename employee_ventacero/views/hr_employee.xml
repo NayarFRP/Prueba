@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record id="hr_employee_inherit_employee_ventacero" model="ir.ui.view">
+      <field name="name">hr.employee.inherit.employee.ventacero</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="arch" type="xml">
+      
+        <xpath expr="//field[@name='emergency_phone']" position="after">
+          <field name="tipo_sangre"/>
+          <field name="alergias"/>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='personal_information']/group[1]/group[3]" position="after">
+          <group string="Familia">
+              <field name="info_padre"/>
+              <field name="info_madre"/>
+              <field name="info_conyuge"/>
+              <field name="info_hijos"/>
+          </group>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='personal_information']/group[1]/group[5]" position="after">
+          <group string="IMSS">
+              <field name="numero_seguro"/>
+              <field name="clinica_imss"/>
+          </group>
+        </xpath>
+
+        <xpath expr="//field[@name='job_id']" position="after">
+          <field name="fecha_ingreso"/>
+          <field name="salario_diario"/>
+          <field name="salario_integrado"/>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

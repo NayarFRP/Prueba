@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- REPORTE DE IMPRESION DE CHEQUE CITI BANAMEX -->
+
+    <template id="account_payment_batch_check_report_002_print">
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div>
+            <p style="position: absolute; top: 20mm; left: 115mm; width: 92mm;" t-esc="o.get_fecha()"/>
+            <t t-if="o.partner_id">
+                <p style="position: absolute; top: 36mm; left: 9mm; width: 148mm;" t-esc="o.partner_id.name"/>
+            </t>
+            <t t-if="o.partner_name">
+                <p style="position: absolute; top: 36mm; left: 9mm; width: 148mm;" t-esc="o.partner_name"/>
+            </t>
+            <p style="position: absolute; top: 36mm; left: 168mm; width: 33mm;" t-esc="o.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+            <p style="position: absolute; top: 45mm; left: 9mm; width: 195mm;" t-esc="o.get_monto_texto()"/>
+            <p style="position: absolute; top: 54mm; left: 85mm; width: 93mm;" t-esc="o.get_leyenda()"/>
+        </div>
+
+
+    </template>
+
+    <template id="account_payment_batch_check_report_002" name="account_payment_batch_check_report_002">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="payment_ventacero.account_payment_batch_check_report_002_print"/>
+          </t>
+        </t>
+    </template>
+
+    <record id="paperformat_account_payment_batch_002" model="report.paperformat">
+        <field name="name">Cheque</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">84</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False" />
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="report_account_payment_batch_002" model="ir.actions.report">
+        <field name="name">Cheque BANAMEX</field>
+        <field name="model">account.payment.batch</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payment_ventacero.account_payment_batch_check_report_002</field>
+        <field name="report_file">payment_ventacero.account_payment_batch_check_report_002</field>
+        <field name="print_report_name">'Cheque - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="payment_ventacero.model_account_payment_batch"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="payment_ventacero.paperformat_account_payment_batch_002"/>
+    </record>
+
+    <!--FIN DE REPORTE DE IMPRESION DE CHEQUE CITI BANAMEX -->
+
+    <!-- REPORTE DE IMPRESION DE CHEQUE BANREGIO -->
+
+    <template id="account_payment_batch_check_report_058_print">
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div>
+            <p style="position: absolute; top: 17mm; left: 107mm; width: 50mm;" t-esc="o.get_fecha()"/>
+            <t t-if="o.partner_id">
+                <p style="position: absolute; top: 31mm; left: 8mm; width: 102mm;" t-esc="o.partner_id.name"/>
+            </t>
+            <t t-if="o.partner_name">
+                <p style="position: absolute; top: 31mm; left: 8mm; width: 102mm;" t-esc="o.partner_name"/>
+            </t>
+            <p style="position: absolute; top: 31mm; left: 123mm; width: 32mm;" t-esc="o.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+            <p style="position: absolute; top: 41mm; left: 8mm; width: 149mm;" t-esc="o.get_monto_texto()"/>
+        </div>
+
+
+    </template>
+
+    <template id="account_payment_batch_check_report_058" name="account_payment_batch_check_report_058">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="payment_ventacero.account_payment_batch_check_report_058_print"/>
+          </t>
+        </t>
+    </template>
+
+    <record id="paperformat_account_payment_batch_058" model="report.paperformat">
+        <field name="name">Cheque</field>
+        <field name="default" eval="True" />
+        <field name="format">custom</field>
+        <field name="page_height">70</field>
+        <field name="page_width">165</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False" />
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="report_account_payment_batch_058" model="ir.actions.report">
+        <field name="name">Cheque BANREGIO</field>
+        <field name="model">account.payment.batch</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payment_ventacero.account_payment_batch_check_report_058</field>
+        <field name="report_file">payment_ventacero.account_payment_batch_check_report_058</field>
+        <field name="print_report_name">'Cheque - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="payment_ventacero.model_account_payment_batch"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="payment_ventacero.paperformat_account_payment_batch_058"/>
+    </record>
+
+    <!--FIN DE REPORTE DE IMPRESION DE CHEQUE BANREGIO -->
+
+
+</odoo>
